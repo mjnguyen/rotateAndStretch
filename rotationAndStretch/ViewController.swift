@@ -25,25 +25,29 @@ class ViewController: UIViewController {
     @IBAction func rotateLandscape(_ sender: Any) {
         // rotate the view into landscape and make adjustments as necessary
         let rotation = CGAffineTransformRotate(.identity, .pi / 2.0)
-
         let yOffset = self.view.frame.size.height / 2.0
+        let midpoint = CGPoint(x: 64, y: yOffset)
+
         UIView.animate(withDuration: 0.750) {
             self.container.transform = rotation
             self.containerWidthConstraint.constant = 700
         } completion: { _ in
             UIView.animate(withDuration: 0.250) {
-                self.container.center = CGPoint(x: 64, y: yOffset)
+                self.container.center = midpoint
             }
 
         }
-
     }
 
     @IBAction func turnPortrait(_ sender: Any) {
 
         let rotation = CGAffineTransformRotate(self.container.transform, -.pi/2.0)
+        let yOffset = self.view.frame.size.height - self.view.safeAreaInsets.bottom - 64
+        let midpoint = CGPoint(x: self.view.frame.size.width / 2, y: yOffset )
         UIView.animate(withDuration: 0.750) {
-            self.container.center = CGPoint(x: self.view.frame.size.width / 2, y: self.view.frame.size.height - self.view.safeAreaInsets.bottom - 64 )
+            self.container.center = midpoint
+            self.container.transform = rotation
+            self.containerWidthConstraint.constant = 363
         } completion: { _ in
             UIView.animate(withDuration: 0.250) {
                 self.container.transform = rotation
